@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CL #11 | 名城大学 情報工学部</title>
+    <style>
+        /* ============================================
+           モダンデザイン (2026年度)
+           ============================================ */
+        :root {
+            --color-primary: #2563eb;
+            --color-primary-dark: #1e40af;
+            --color-accent: #f59e0b;
+            --color-danger: #dc2626;
+            --color-success: #10b981;
+            --color-bg: #f8fafc;
+            --color-bg-card: #ffffff;
+            --color-text: #1e293b;
+            --color-text-muted: #64748b;
+            --color-border: #e2e8f0;
+            --color-code-bg: #fef3c7;
+            --radius: 12px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-lg: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+            font-size: 16px; line-height: 1.8;
+            color: var(--color-text);
+            background: var(--color-bg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .site-header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: white; padding: 2.5rem 2rem; box-shadow: var(--shadow-lg);
+        }
+        .site-header .container { max-width: 1100px; margin: 0 auto; }
+        .site-header .university { font-size: 0.95rem; opacity: 0.85; margin: 0 0 0.5rem; letter-spacing: 0.1em; }
+        .site-header h1 { font-size: 2.2rem; margin: 0; font-weight: 700; letter-spacing: -0.02em; }
+        .site-header .subtitle { margin-top: 0.8rem; font-size: 1rem; opacity: 0.95; }
+        .site-header .face-badge {
+            display: inline-block; background: #1e3a8a; color: #dbeafe;
+            font-size: 0.8rem; font-weight: 700; padding: 0.2rem 0.7rem; border-radius: 999px;
+            margin-top: 0.6rem; letter-spacing: 0.05em;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+        .toc { background: var(--color-bg-card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.5rem 2rem; margin: 2rem auto; }
+        .toc h2 { margin: 0 0 1rem; font-size: 1.1rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+        .toc ol { columns: 2; column-gap: 2rem; margin: 0; padding-left: 1.5rem; }
+        .toc li { margin-bottom: 0.4rem; }
+        .toc a { color: var(--color-primary); text-decoration: none; font-weight: 500; }
+        .toc a:hover { text-decoration: underline; }
+
+        section {
+            background: var(--color-bg-card); border-radius: var(--radius); box-shadow: var(--shadow);
+            padding: 2rem 2.5rem; margin: 2rem auto; max-width: 1100px; scroll-margin-top: 1rem;
+        }
+        section h2 {
+            font-size: 1.6rem; margin: 0 0 1.5rem; padding-bottom: 0.8rem;
+            border-bottom: 3px solid var(--color-primary); color: var(--color-primary-dark);
+            display: flex; align-items: center; gap: 0.6rem;
+        }
+        section h2 .section-number {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 2.2rem; height: 2.2rem; border-radius: 50%;
+            background: var(--color-primary); color: white; font-size: 1rem; font-weight: 700; flex-shrink: 0;
+        }
+        section h3 { font-size: 1.2rem; margin: 1.8rem 0 0.8rem; color: var(--color-primary-dark); }
+        section h4 { font-size: 1.05rem; margin: 1.2rem 0 0.5rem; color: var(--color-text); }
+
+        ul, ol { padding-left: 1.5rem; }
+        li { margin-bottom: 0.4rem; }
+        a { color: var(--color-primary); }
+
+        .callout { border-left: 4px solid var(--color-primary); background: #eff6ff; padding: 1rem 1.2rem; margin: 1rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
+        .callout.warning { border-left-color: var(--color-danger); background: #fef2f2; }
+        .callout.tip { border-left-color: var(--color-success); background: #ecfdf5; }
+        .callout.note { border-left-color: var(--color-accent); background: #fffbeb; }
+        .callout strong.label { display: inline-block; margin-right: 0.5rem; font-weight: 700; }
+
+        .assignment {
+            border: 2px solid var(--color-accent); background: #fffbeb; border-radius: var(--radius); padding: 1.2rem 1.5rem; margin: 1rem 0;
+        }
+        .assignment .badge {
+            display: inline-block; background: var(--color-accent); color: white;
+            font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.7rem; border-radius: 999px; letter-spacing: 0.05em;
+        }
+        .assignment h4 { margin: 0.5rem 0 0.5rem; color: #78350f; }
+        .assignment .deadline { color: var(--color-danger); font-weight: 600; font-size: 0.95rem; }
+
+        pre, code.inline {
+            font-family: "SF Mono", "Consolas", "Menlo", "Courier New", monospace;
+            background: var(--color-code-bg); border-radius: 6px; padding: 0.15rem 0.4rem; font-size: 0.95em;
+        }
+        pre { padding: 1rem 1.2rem; overflow-x: auto; border-left: 3px solid var(--color-accent); margin: 0.8rem 0; line-height: 1.5; white-space: pre-wrap; word-wrap: break-word; }
+
+        .path { font-family: "SF Mono", "Consolas", "Menlo", "Courier New", monospace; font-weight: 700; color: #1d4ed8; }
+
+        table { border-collapse: collapse; margin: 1rem 0; width: 100%; background: white; border-radius: var(--radius); overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+        th { background: var(--color-primary); color: white; padding: 0.7rem 1rem; text-align: left; font-weight: 600; }
+        td { padding: 0.7rem 1rem; border-top: 1px solid var(--color-border); vertical-align: top; }
+        tr:nth-child(even) td { background: #f8fafc; }
+
+        img { max-width: 100%; height: auto; border-radius: 8px; }
+        figure { margin: 1rem 0; text-align: center; }
+        figure img { box-shadow: var(--shadow); }
+        figcaption { margin-top: 0.5rem; font-size: 0.9rem; color: var(--color-text-muted); }
+
+        .back-to-top { display: block; text-align: right; margin: 1rem 0; font-size: 0.9rem; }
+
+        /* スケジュール表 */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .schedule-grid .item {
+            background: #f1f5f9;
+            padding: 0.6rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .schedule-grid .item.remote {
+            background: #fef3c7;
+            border-left: 3px solid var(--color-accent);
+        }
+        .schedule-grid .item.exam {
+            background: #fee2e2;
+            border-left: 3px solid var(--color-danger);
+        }
+        .schedule-grid .item.current {
+            background: #bfdbfe;
+            border: 3px solid var(--color-primary);
+            font-weight: 700;
+        }
+        .schedule-grid .item strong {
+            display: block;
+            color: var(--color-primary-dark);
+            font-size: 0.85rem;
+            margin-bottom: 0.2rem;
+        }
+
+        footer { text-align: center; padding: 3rem 2rem 2rem; color: var(--color-text-muted); font-size: 0.9rem; }
+
+        .note-text { color: var(--color-text-muted); font-size: 0.9rem; }
+        .must { color: var(--color-danger); font-weight: 600; }
+
+        /* ステップ説明用 */
+        .step-list { counter-reset: step; list-style: none; padding-left: 0; }
+        .step-list li { counter-increment: step; padding: 0.6rem 0 0.6rem 2.5rem; position: relative; border-left: 2px solid var(--color-border); margin-left: 1rem; }
+        .step-list li::before {
+            content: counter(step); position: absolute; left: -1rem; top: 0.5rem;
+            width: 2rem; height: 2rem; border-radius: 50%; background: var(--color-primary); color: white;
+            display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;
+        }
+        .step-list li:last-child { border-left: 2px solid transparent; }
+
+        /* 比較カード（2カラム） */
+        .compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .compare .col {
+            border-radius: var(--radius);
+            padding: 1rem 1.2rem;
+        }
+        .compare .col.local { background: #f1f5f9; border-top: 4px solid var(--color-text-muted); }
+        .compare .col.cloud { background: #eff6ff; border-top: 4px solid var(--color-primary); }
+        .compare .col h4 { margin-top: 0; }
+        @media (max-width: 768px) {
+            .compare { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .site-header { padding: 1.5rem 1rem; }
+            .site-header h1 { font-size: 1.6rem; }
+            .container { padding: 0 1rem; }
+            section { padding: 1.5rem 1.2rem; margin: 1rem; }
+            .toc ol { columns: 1; }
+            section h2 { font-size: 1.3rem; }
+        }
+
+        @media print {
+            body { background: white; }
+            section { box-shadow: none; page-break-inside: avoid; }
+            .site-header { background: var(--color-primary) !important; }
+        }
+
+        /* 手順PDFビューア（1ページずつ表示する窓） */
+        .pdf-viewer { border: 2px solid var(--color-primary); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow); margin: 1rem 0; }
+        .pdf-viewer .pdf-bar { background: var(--color-primary); color: #fff; display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; padding: 0.45rem 0.9rem; font-size: 0.85rem; }
+        .pdf-viewer .pdf-bar .pdf-title { font-weight: 600; margin-right: auto; }
+        .pdf-viewer .pdf-bar a { color: #fff; font-weight: 600; font-size: 0.85rem; }
+        /* 各ページ画像を縦に並べ、スクロール位置で1ページずつ見せる。
+           ページは A4 横（842:595）なので stage と画像の縦横比を揃えると、ちょうど1ページ分が表示される。 */
+        .pdf-viewer .pdf-stage iframe { width: 100%; height: 760px; border: 0; display: block; background: #fff; }
+        @media (max-width: 768px) { .pdf-viewer .pdf-stage iframe { height: 520px; } }
+    </style>
+</head>
+
+<body>
+    <a id="top"></a>
+
+    <header class="site-header">
+        <div class="container">
+            <p class="university">名城大学 情報工学部 2026年度</p>
+            <h1>コンピュータリテラシー #11</h1>
+            <p class="subtitle">文書作成3 の補足 ／ ファイルの管理（パスと ID・アクセス権） ／ GitHub の準備</p>
+            <span class="face-badge">対面講義（E-504 教室）</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="toc">
+            <h2>本資料の内容</h2>
+            <ol>
+                <li><a href="#s0">今回の進め方</a></li>
+                <li><a href="#s1">過去の講義資料・出席状況・日程</a></li>
+                <li><a href="#s2">論文整形課題（Word）の補足解説</a></li>
+                <li><a href="#s3">ファイルの管理：パス方式と ID 方式</a></li>
+                <li><a href="#s4">クラウドドライブのアクセス権（共有）</a></li>
+                <li><a href="#s5">GitHub ってなに？（概要）</a></li>
+                <li><a href="#s6">GitHub アカウントを作る・安全に設定する</a></li>
+                <li><a href="#s7">まとめ・課題と締切・次回予告</a></li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- ============================================
+         セクション0: 今回の進め方・全体像
+         ============================================ -->
+    <section id="s0">
+        <h2><span class="section-number">0</span>今回の進め方</h2>
+
+        <div class="callout">
+            <strong class="label">📍 対面授業:</strong>
+            6月18日(木) E-504 教室。Bクラス＝3限／Aクラス＝4限。出席は教室の IC カードで登録。
+        </div>
+
+        <ol class="step-list">
+            <li>論文整形課題（Word）の補足解説（§2）— 前回の遠隔課題のつまずきポイント</li>
+            <li>ファイルの管理：パス方式と ID 方式の違い（§3）</li>
+            <li>クラウドドライブのアクセス権（共有）の考え方（§4）</li>
+            <li>GitHub ってなに？（§5）と、アカウントの作成・安全な設定（§6）</li>
+        </ol>
+
+        <div class="callout tip">
+            <strong class="label">💡 これから4回の流れ:</strong>
+            <strong>CL-11（ファイルの管理・GitHub の準備）</strong> →
+            CL-12（Markdown を GitHub Pages で公開）→
+            CL-13（HTML を公開）→
+            CL-14（Git で履歴管理・公開ページの仕上げ）。
+            今回は、これ以降で「成果物をインターネットに公開する」ための土台を整えます。
+        </div>
+
+        <a class="back-to-top" href="#top">↑ TOPへ</a>
+    </section>
+
+    <!-- ============================================
+         セクション1: 過去の講義資料・出席状況・日程
+         ============================================ -->
+    <section id="s1">
+        <h2><span class="section-number">1</span>過去の講義資料・出席状況・日程</h2>
+
+        <div class="callout tip">
+            <strong class="label">📥 過去の講義資料（Drive）:</strong>
+            <a href="https://drive.google.com/drive/folders/1S9MbI1lETHGyb8ePA5CnirpT3lmMbBu_?usp=sharing" target="_blank">CL-01</a> /
+            <a href="https://drive.google.com/drive/folders/1bX94jXXXwJq93Ub3Xjqw_wSpoN3aNKE9?usp=sharing" target="_blank">CL-02</a> /
+            <a href="https://drive.google.com/drive/folders/1iotZl0YnTtgavws_ike1IJQIsjkULo2Y?usp=sharing" target="_blank">CL-03</a> /
+            <a href="https://drive.google.com/drive/folders/1B8zHjGobr4v0Ak9jGBMvFm_defoFpKdH?usp=sharing" target="_blank">CL-04</a> /
+            <a href="https://drive.google.com/drive/folders/1hgHA1ExxWg6w9T0puRkgU1_pN7icXhkU?usp=sharing" target="_blank">CL-05</a> /
+            <a href="https://drive.google.com/drive/folders/1Wg4ugAtHV-AJHwIiyTUpc81pcgSq_599?usp=sharing" target="_blank">CL-06</a> /
+            <a href="https://drive.google.com/drive/folders/1Z4MDtFuJiCzR_Xd2TIrkdJRIV5nrGY6c?usp=sharing" target="_blank">CL-07</a> /
+            <a href="https://drive.google.com/drive/folders/1ROOGdf_DUW9Rpb1zkzogYmRYVdeadykV?usp=sharing" target="_blank">CL-08</a> /
+            <a href="https://drive.google.com/drive/folders/1fnmRN4DZVzyNdWoi1hyWhvK-NubNA_5x?usp=sharing" target="_blank">CL-09</a> /
+            <a href="https://drive.google.com/drive/folders/1HCIqroj3zPQMYHO6Jum2N924P2v_yzh5?usp=sharing" target="_blank">CL-10</a>
+            <br><span class="note-text">⚠ <strong>名城大学の Google アカウント</strong>でログインが必要（個人アカウント不可）。この「アクセス権の制御」は §4 で扱います。</span>
+        </div>
+
+        <h3>過去回の出席状況</h3>
+        <ul>
+            <li>Aクラス：<a href="https://docs.google.com/spreadsheets/d/1ZYIUi_9XJJvehcquSxdIVN6WYvVojUsO4z9je9m8sfA/edit?usp=sharing" target="_blank">出席状況シート</a> ／ Bクラス：<a href="https://docs.google.com/spreadsheets/d/1Af_DTBHwGQTAtwZ0Vj2SqfM4Mogq3szZDfV2I0lHmHI/edit?usp=sharing" target="_blank">出席状況シート</a></li>
+        </ul>
+
+        <h3>授業日程</h3>
+        <div class="schedule-grid">
+            <div class="item"><strong>第1回</strong>4/16(木)</div>
+            <div class="item"><strong>第2回</strong>4/23(木)</div>
+            <div class="item remote"><strong>第3回 遠隔</strong>4/24〜4/29</div>
+            <div class="item"><strong>第4回</strong>4/30(木)</div>
+            <div class="item"><strong>第5回</strong>5/7(木)</div>
+            <div class="item"><strong>第6回</strong>5/14(木)</div>
+            <div class="item"><strong>第7回</strong>5/21(木)</div>
+            <div class="item"><strong>第8回</strong>5/28(木)</div>
+            <div class="item"><strong>第9回</strong>6/4(木)</div>
+            <div class="item remote"><strong>第10回 遠隔</strong>6/5〜6/17</div>
+            <div class="item current"><strong>第11回 ← 今回</strong>6/18(木)</div>
+            <div class="item"><strong>第12回</strong>6/25(木)</div>
+            <div class="item"><strong>第13回</strong>7/2(木)</div>
+            <div class="item"><strong>第14回</strong>7/9(木)</div>
+            <div class="item"><strong>第15回</strong>7/16(木)</div>
+        </div>
+
+        <a class="back-to-top" href="#top">↑ TOPへ</a>
+    </section>
+
+    <!-- ============================================
+         セクション2: 論文整形課題（Word）の補足解説
+         ============================================ -->
+    <section id="s2">
+        <h2><span class="section-number">2</span>論文整形課題（Word）の補足解説</h2>
+
+        <p>前回（CL-10・遠隔）で出題した <strong>論文整形課題（学会論文レイアウトの再現）</strong> について、
+        解説動画で触れていない・つまずきやすい点を補足します（操作の正解ではなく <strong>調べるキーワード</strong> を示します）。
+        締切は <strong class="must">6月20日(土) 22:00</strong>。</p>
+
+        <ul>
+            <li><strong>段組みを一部だけに</strong>：範囲を選択してから設定 → <code class="inline">Word 段組み 一部だけ</code></li>
+            <li><strong>通常番号と上付き番号の区別</strong>：<code class="inline">論文_文面.txt</code> の <code class="inline">(1)</code>〜<code class="inline">(18)</code> はサンプル画像を見て区別 → <code class="inline">Word 上付き文字</code></li>
+            <li><strong>フッターのページ番号</strong>：<code class="inline">1/7</code> の形（現在ページ／総ページ）→ <code class="inline">Word ページ番号 総ページ数</code></li>
+            <li><strong>自分で作る図表</strong>：動画で解説していなかった表4を作成</li>
+            <li><strong>表示行数を増やして、目的のサイズに収める</strong></li>
+            <li><strong>スタイル機能</strong>：見出し・本文はスタイルで整える → <code class="inline">Word スタイル 使い方</code></li>
+        </ul>
+
+        <div class="callout warning">
+            <strong class="label">⚠ 完全再現は不要:</strong>
+            7 ページに収めることやピクセル単位の一致は求めません。できるところまでで OK（途中提出・追加提出も可）。
+        </div>
+
+        <div class="assignment">
+            <span class="badge">★ 提出フォーム（Word・pdf の両方）</span>
+            <h4>論文整形課題（文書作成ソフト3）</h4>
+            <ul>
+                <li><span style="color:red">★</span> <a href="https://forms.gle/YScCRUVPAcNTg1P47" target="_blank">Word（docx）</a> ／ <a href="https://forms.gle/p3tY1zBZduaUSV8BA" target="_blank">pdf</a></li>
+                <li>ファイル名：<code class="inline">{学籍番号}_文書作成ソフト3.docx</code> / <code class="inline">.pdf</code>（波カッコは残さない）</li>
+            </ul>
+            <p class="deadline">提出期限：<strong>6月20日(土) 22:00</strong></p>
+        </div>
+
+        <a class="back-to-top" href="#top">↑ TOPへ</a>
+    </section>
+
+    <!-- ============================================
+         セクション3: ファイルの管理（パス方式 vs ID方式）
+         ============================================ -->
+    <section id="s3">
+        <h2><span class="section-number">3</span>ファイルの管理：パス方式と ID 方式</h2>
+
+        <p>ファイルを「どうやって 1 つに特定するか」は、保存先によって考え方が違います。
+        <strong>パソコンや USB（ローカル）</strong>と <strong>クラウドドライブ（Google ドライブなど）</strong>で、
+        その仕組みを比べてみましょう。</p>
+
+        <div class="compare">
+            <div class="col local">
+                <h4>📁 パス方式（ローカル）</h4>
+                <p>ファイルを <strong>「置いてある場所」</strong>で特定します。フォルダの階層を上から順にたどった道順が「パス」です。</p>
+                <pre>C:\Users\meijo\卒論\report.docx</pre>
+                <ul>
+                    <li>フォルダを移動・名前変更すると <strong>パスが変わる</strong>。</li>
+                    <li>その結果、ショートカットや文書内のリンクが <strong>切れる</strong>ことがある。</li>
+                    <li>同じ場所に同じ名前のファイルは置けない。</li>
+                </ul>
+            </div>
+            <div class="col cloud">
+                <h4>☁ ID 方式（クラウド）</h4>
+                <p>ファイル 1 つ 1 つに <strong>固有の ID（番号）</strong>が割り振られ、その ID で特定します。共有 URL の中に ID が入っています。</p>
+                <pre>https://drive.google.com/file/d/<b>1AbC...xyz</b>/view</pre>
+                <ul>
+                    <li>フォルダを移動しても名前を変えても <strong>ID は変わらない</strong>。</li>
+                    <li>だから共有リンクは <strong>切れにくい</strong>。</li>
+                    <li>同じ名前のファイルが複数あっても、ID が違えば別物として区別できる。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout note">
+            <strong class="label">🔑 ここがポイント:</strong>
+            「場所（パス）で管理」か「固有の ID で管理」か、という違いです。
+            ID 方式はリンクが切れにくい反面、<strong>URL を見ても中身や置き場所が分かりにくい</strong>という側面もあります。
+        </div>
+
+        <a class="back-to-top" href="#top">↑ TOPへ</a>
+    </section>
+
+    <!-- ============================================
+         セクション4: クラウドドライブのアクセス権（共有）
+         ============================================ -->
+    <section id="s4">
+        <h2><span class="section-number">4</span>クラウドドライブのアクセス権（共有）</h2>
+
+        <p>クラウドにあるファイルは、<strong>「誰が」「何をできるか」</strong>を持ち主（オーナー）が決めます。
+        これを <strong>アクセス権（共有設定）</strong>と呼びます。2 つの軸で考えると整理できます。</p>
+
+        <h3>軸その1：誰が開けるか（公開範囲）</h3>
+        <ul>
+            <li><strong>特定の人だけ</strong>：招待したメールアドレスの人だけ。いちばん安全。</li>
+            <li><strong>組織内の全員</strong>：例「名城大学のアカウントを持つ人なら開ける」。</li>
+            <li><strong>リンクを知っている全員</strong>：URL さえあれば誰でも開ける。手軽だが拡散に注意。</li>
+        </ul>
+
+        <h3>軸その2：何ができるか（権限の強さ）</h3>
+        <ul>
+            <li><strong>閲覧者</strong>：見るだけ。</li>
+            <li><strong>閲覧者（コメント可）</strong>：見て、コメントを付けられる。</li>
+            <li><strong>編集者</strong>：中身を書き換えられる。</li>
+        </ul>
+
+        <div class="callout warning">
+            <strong class="label">⚠ 「リンクを知っている全員」の落とし穴:</strong>
+            「リンクを知っている全員が編集者」にすると、<strong>URL が転送・公開されただけで、誰でも書き換え・削除できる</strong>状態になります。
+            個人情報・成績・未公開の作品などは、原則「特定の人だけ」にしましょう。
+            <br>※ 攻撃者にパスワードを破られなくても、<strong>リンクが広まるだけ</strong>で情報が漏れる――これも立派なリスクです。
+        </div>
+
+        <div class="callout note">
+            <strong class="label">📎 身近な実例:</strong>
+            この講義資料（§1 の Drive リンク）は <strong>「名城大学のアカウントを持つ人だけ」</strong>に設定しています。
+            だから個人の Google アカウントでは開けません。これがまさにアクセス権の制御の例です。
+        </div>
+
+        <p class="note-text">※ 共有メニューの場所や項目名はサービスの更新で変わります。迷ったら
+        <a href="https://support.google.com/drive/answer/2494822" target="_blank">Google ドライブ公式ヘルプ「ファイルやフォルダを共有する」</a> や
+        <code class="inline">Google ドライブ 共有 権限</code> で検索を。</p>
+
+        <a class="back-to-top" href="#top">↑ TOPへ</a>
+    </section>
+
+    <!-- ============================================
+         セクション5: GitHub ってなに？（概要）
+         ============================================ -->
+    <section id="s5">
+        <h2><span class="section-number">5</span>GitHub ってなに？（概要）</h2>
+
+        <p><strong>GitHub（ギットハブ）</strong>（<a href="https://github.com/" target="_blank">github.com</a>）は、
+        プログラムのソースコードや文書を <strong>クラウドで保存・公開・共同編集</strong>できるサービスです。
+        世界中の開発者が日常的に使っています。この授業では、これから作る成果物を
+        <strong>インターネットに公開する場所</strong>として使います。</p>
+
+        <ul>
+            <li><strong>リポジトリ（repository）</strong>：プロジェクト 1 つ分の保管場所（フォルダのようなもの）。
+            <strong>公開（public）</strong>と <strong>非公開（private）</strong>を選べる。</li>
+            <li><strong>GitHub Pages</strong>：リポジトリの中身を <strong>Webページとして無料で公開</strong>できる機能。次回 CL-12 で実際に使います。</li>
+            <li><strong>Git</strong>：ファイルの「変更の履歴」を記録する仕組み。GitHub はその Git を<strong>クラウドで使える場所</strong>です（履歴管理は CL-14 で少し体験します）。</li>
+        </ul>
+
+        <div class="callout note">
+            <strong class="label">🔗 §4 とのつながり:</strong>
+            <strong>公開（public）リポジトリは世界中の誰でも見られます</strong>。クラウドドライブの「リンクを知っている全員」と同じ考え方です。
+            公開する場所には、人に見られて困るもの（個人情報・他人の著作物など）を置かないようにします。
+        </div>
+
+        <h3>5-1. 公開すると何が見える？（public と private）</h3>
+        <p>GitHub Pages で Web ページを公開するとき、リポジトリの種類によって <strong>「ソースコードまで見えるか」</strong>が変わります。</p>
+        <div class="compare">
+            <div class="col cloud">
+                <h4>public（公開）リポジトリ</h4>
+                <ul>
+                    <li>Web ページが誰でも見られる。</li>
+                    <li><strong>中のソースコード（HTML や画像ファイルなど）も誰でも見られる</strong>。</li>
+                </ul>
+            </div>
+            <div class="col local">
+                <h4>private（非公開）リポジトリ</h4>
+                <ul>
+                    <li><strong>ソースコードは他の人から見えない</strong>。</li>
+                    <li>ただし GitHub Pages で公開した <strong>Web ページ自体は、誰でも見られる</strong>。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout note">
+            <strong class="label">🧩 もっと柔軟に公開を制御したいとき:</strong>
+            「特定の人だけに見せる」「独自ドメインで細かく設定する」など、より柔軟な公開設定が必要な場合は、
+            <a href="https://pages.cloudflare.com/" target="_blank">Cloudflare Pages</a> などの別サービスも選択肢になります（この授業では扱いません）。
+        </div>
+
+        <a class="back-to-top" href="#top">↑ TOPへ</a>
+    </section>
+
+    <!-- ============================================
+         セクション6: GitHub アカウント作成・セキュリティ
+         ============================================ -->
+    <section id="s6" class="hands-on">
+        <h2><span class="section-number">6</span>GitHub アカウントを作る・安全に設定する</h2>
+
+        <p>次回 CL-12 で GitHub を使えるよう、<strong>アカウントを作成</strong>し、
+        <strong>乗っ取られないための設定</strong>までやっておきます。
+        （細かいボタンの場所は変わるので、ここでは「何を・なぜ」を示します。手順は公式ドキュメントで確認しましょう。）</p>
+
+        <h3>6-1. アカウントを作る</h3>
+        <p><a href="https://github.com/signup" target="_blank">github.com の Sign up（新規登録）</a> から登録します。登録時の選択で、特に次の 2 つを意識してください。</p>
+
+        <h4>ユーザー名（公開されます）</h4>
+        <ul>
+            <li>ユーザー名は <strong>URL やページに表示され、世界中から見えます</strong>。</li>
+            <li><strong>本名や学籍番号をそのまま使わず</strong>、自分で決めた「ハンドル名」にするのがおすすめ（プライバシー保護）。</li>
+        </ul>
+
+        <h4>登録するメールアドレス（自分で選ぶ）</h4>
+        <p>個人のメールでも大学のメールでも作れます。<strong>長く使い続けられるもの</strong>を自分で選びましょう。</p>
+        <div class="compare">
+            <div class="col cloud">
+                <h4>個人のメール</h4>
+                <ul>
+                    <li>卒業後もそのまま使い続けられる。</li>
+                    <li>普段使うアドレスを忘れにくい。</li>
+                </ul>
+            </div>
+            <div class="col local">
+                <h4>大学のメール</h4>
+                <ul>
+                    <li>在学中は管理しやすい。</li>
+                    <li><strong>卒業すると使えなくなる</strong>ため、その前にメール変更が必要。</li>
+                </ul>
+            </div>
+        </div>
+
+        <h4>本人確認</h4>
+        <p>ユーザー名・メール・パスワードを入力したあと、<strong>「人間かどうか」の確認（パズルなど）</strong>と、
+        <strong>登録メールに届く確認コードの入力</strong>があります。コードを入れると登録完了です。</p>
+
+        <h3>6-2. 乗っ取り防止の設定（重要）</h3>
+        <p>GitHub のアカウントは、後から大切な成果物が貯まっていきます。最初に守りを固めておきましょう。</p>
+
+        <ol class="step-list">
+            <li><strong>強いパスワードにする</strong>：長く、他のサービスと <strong>使い回さない</strong>。
+            （使い回すと、別サービスから漏れたパスワードでログインを試される＝<em>パスワードリスト攻撃</em>に弱い。）</li>
+            <li><strong>二要素認証（2FA）を設定する</strong>：ログイン時に、パスワードに加えて
+            <strong>認証アプリ</strong>のコードや <strong>パスキー</strong>を要求する仕組み。
+            <br>→ <strong>パスワードが漏れても、本人以外はログインできない</strong>。GitHub は 2FA の設定を強く推奨しています。</li>
+            <li><strong>リカバリコードを保存する</strong>：2FA を設定すると、使い捨ての <strong>リカバリコード</strong>が表示される。
+            スマホを失くしたときの「合鍵」なので、<strong>安全な場所に必ず保存</strong>（印刷・パスワード管理アプリなど）。</li>
+        </ol>
+
+        <div class="callout tip">
+            <strong class="label">🔎 設定方法の調べ方:</strong>
+            <a href="https://docs.github.com/ja/authentication/securing-your-account-with-two-factor-authentication-2fa" target="_blank">GitHub Docs「2 要素認証 (2FA) でアカウントを保護する」</a>
+            ／ 検索なら <code class="inline">GitHub 2要素認証 設定</code>。画面の指示どおり進めれば完了します。
+        </div>
+
+        <div class="callout warning">
+            <strong class="label">⚠ 認証アプリの端末を機種変更するとき:</strong>
+            2FA を設定したスマホを初期化・買い替えすると、ログインできなくなることがあります。
+            <strong>リカバリコード</strong>を保管しておけば復旧できます。捨てないように。
+        </div>
+
+        <h3>6-3. 個人のメールアドレスを隠す</h3>
+        <p>GitHub では、操作の記録などに <strong>登録メールアドレスが残って公開されてしまう</strong>ことがあります。
+        個人のメールを知られたくない場合は、次の設定をしておきましょう（場所：<code class="inline">Settings → Emails</code>）。</p>
+
+        <ol class="step-list">
+            <li><strong>メールを非公開にする</strong>：<code class="inline">Keep my email addresses private</code> を ON。
+            これで GitHub があなたの代わりの <strong>noreply（返信不可）アドレス</strong>を用意してくれます。</li>
+            <li><strong>うっかり公開を防ぐ</strong>：<code class="inline">Block command line pushes that expose my email</code> を ON。
+            コマンドラインから操作したときに、メールが見えてしまう操作をブロックします。</li>
+            <li><strong>（コマンドラインで Git を使う人向け）</strong> Git に記録される送信元メールを、上記の noreply アドレスに変えておく：
+                <pre>git config --global user.email "12345678+username@users.noreply.github.com"</pre>
+                <span class="note-text">※ あなた専用の正確な noreply アドレスは <code class="inline">Settings → Emails</code> に表示されます。
+                その文字列をそのまま使ってください（<code class="inline">12345678</code> や <code class="inline">username</code> は人によって違います）。</span>
+            </li>
+        </ol>
+
+        <div class="callout tip">
+            <strong class="label">🔎 調べ方:</strong>
+            <a href="https://docs.github.com/ja/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address" target="_blank">GitHub Docs「コミットメールアドレスを設定する」</a>
+            ／ 検索なら <code class="inline">GitHub メールアドレス 非公開</code>。
+        </div>
+
+        <div class="assignment">
+            <span class="badge">準備（提出は不要）</span>
+            <h4>次回 CL-12 までに：GitHub アカウントを使える状態に</h4>
+            <ul>
+                <li>アカウントを作成し、<strong>2FA（二要素認証）まで設定</strong>しておく。</li>
+                <li>リカバリコードを保存しておく。</li>
+                <li>個人のメールを <strong>非公開に設定</strong>しておく（§6-3）。</li>
+            </ul>
+        </div>
+
+        <h3>6-4. アカウント作成の手順（PDF）</h3>
+        <p>下の窓で、GitHub アカウント作成の手順（全 22 ページ）を確認できます。
+        窓の中を <strong>スクロール</strong>して、見たいページまで動かしてください。</p>
+        <div class="pdf-viewer">
+            <div class="pdf-bar">
+                <span class="pdf-title">GitHub アカウント作成 手順（全 22 ページ）</span>
+                <a href="./res/github登録_訂正版.pdf" target="_blank" rel="noopener">🔗 別タブで開く / 保存</a>
+            </div>
+            <div class="pdf-stage">
+                <iframe title="GitHub アカウント作成 手順" src="./res/github登録_訂正版.pdf#toolbar=0&amp;view=FitH"></iframe>
+            </div>
+        </div>
+        <p class="note-text">※ 窓の中でうまく表示されない・読みにくいときは、上の「🔗 別タブで開く / 保存」から PDF を直接開いてください。</p>
+
+        <a class="back-to-top" href="#top">↑ TOPへ</a>
+    </section>
+
+    <!-- ============================================
+         セクション7: まとめ・課題と締切・次回予告
+         ============================================ -->
+    <section id="s7">
+        <h2><span class="section-number">7</span>まとめ・課題と締切・次回予告</h2>
+
+        <h3>今回のまとめ</h3>
+        <ul>
+            <li>ファイルの特定方法は、ローカルは <strong>パス（場所）</strong>、クラウドは <strong>固有の ID</strong>。</li>
+            <li>クラウドの共有は <strong>「誰が」×「何をできるか」</strong>で決まる。公開範囲の広げすぎに注意。</li>
+            <li><strong>GitHub</strong> は成果物をインターネットに公開する場所。公開リポジトリは世界中から見える。</li>
+            <li>アカウントは <strong>強いパスワード＋2FA＋リカバリコード保存</strong>で守る。</li>
+        </ul>
+
+        <h3>課題と締切</h3>
+        <table>
+            <tr><th>項目</th><th>提出 / 準備</th><th>締切</th></tr>
+            <tr>
+                <td>論文整形課題（文書作成ソフト3 ／ <a href="#s2">§2</a>）</td>
+                <td><a href="https://forms.gle/YScCRUVPAcNTg1P47" target="_blank">Word</a> / <a href="https://forms.gle/p3tY1zBZduaUSV8BA" target="_blank">pdf</a></td>
+                <td><strong class="must">6/20(土) 22:00</strong></td>
+            </tr>
+            <tr>
+                <td>GitHub アカウント作成＋2FA 設定（<a href="#s6">§6</a>）<span class="note-text">※提出不要・次回使います</span></td>
+                <td>準備のみ</td>
+                <td>CL-12 まで</td>
+            </tr>
+            <tr>
+                <td>文書作成ソフト2 <span class="note-text">※未提出者</span></td>
+                <td><a href="https://forms.gle/GVQnYc5YKVuvujob8" target="_blank">Excel</a> / <a href="https://forms.gle/hjEx5NV6LZ3awe6B6" target="_blank">Word</a> / <a href="https://forms.gle/nQWRf77L2BL5kzkV8" target="_blank">pdf</a></td>
+                <td>受付中</td>
+            </tr>
+        </table>
+
+        <h3>次回：CL-12（6月25日(木) E-504 対面）</h3>
+        <p><strong>Markdown</strong> の書き方を学び、作ったページを <strong>GitHub Pages でインターネットに公開</strong>します。
+        今回作った GitHub アカウントを使うので、忘れずに準備を。</p>
+
+        <a class="back-to-top" href="#top">↑ TOPへ</a>
+    </section>
+
+    <footer>
+        <p>2026 名城大学 情報工学部 — コンピュータリテラシー</p>
+    </footer>
+</body>
+</html>
